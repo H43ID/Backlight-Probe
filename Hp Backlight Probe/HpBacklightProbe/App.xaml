@@ -1,0 +1,253 @@
+<Application x:Class="HpBacklightProbe.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+
+        <!-- ============ CORE PALETTE - "Classy Grey" charcoal & champagne gold ============ -->
+        <Color x:Key="ColBgTop">#0A0A0B</Color>
+        <Color x:Key="ColBgMid">#151416</Color>
+        <Color x:Key="ColBgBottom">#0B0B0C</Color>
+
+        <Color x:Key="ColViolet">#C9A24B</Color>   <!-- primary accent: champagne gold -->
+        <Color x:Key="ColCyan">#E4CB84</Color>     <!-- secondary accent: pale gold -->
+        <Color x:Key="ColPink">#5C5A56</Color>     <!-- OFF-state gradient start: warm slate -->
+        <Color x:Key="ColRose">#3A3937</Color>     <!-- OFF-state gradient end: deep slate -->
+        <Color x:Key="ColEmerald">#8FAF8B</Color>  <!-- muted sage: success -->
+        <Color x:Key="ColAmber">#C9A24B</Color>    <!-- warning: same gold family -->
+
+        <SolidColorBrush x:Key="AccentViolet" Color="{StaticResource ColViolet}" />
+        <SolidColorBrush x:Key="AccentCyan" Color="{StaticResource ColCyan}" />
+        <SolidColorBrush x:Key="AccentPink" Color="{StaticResource ColPink}" />
+        <SolidColorBrush x:Key="SuccessGreen" Color="{StaticResource ColEmerald}" />
+        <SolidColorBrush x:Key="ErrorRed" Color="#B4746E" />
+        <SolidColorBrush x:Key="WarningAmber" Color="{StaticResource ColAmber}" />
+
+        <SolidColorBrush x:Key="TextPrimary" Color="#F1EFEA" />
+        <SolidColorBrush x:Key="TextSecondary" Color="#A29D93" />
+        <SolidColorBrush x:Key="TextMuted" Color="#66625B" />
+
+        <!-- ============ WINDOW BACKGROUND (near-black charcoal) ============ -->
+        <LinearGradientBrush x:Key="WindowBg" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="{StaticResource ColBgTop}" Offset="0.0" />
+            <GradientStop Color="{StaticResource ColBgMid}" Offset="0.5" />
+            <GradientStop Color="{StaticResource ColBgBottom}" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- ============ GLASS SURFACES ============ -->
+        <!-- Smoked-glass panel fill: subtle translucent white wash over the near-black
+             backdrop reads as a lighter charcoal pane, matching dark glass-morphism mockups -->
+        <SolidColorBrush x:Key="GlassFill" Color="#12FFFFFF" />
+        <SolidColorBrush x:Key="GlassFillHover" Color="#1AFFFFFF" />
+        <SolidColorBrush x:Key="GlassFillStrong" Color="#1CFFFFFF" />
+
+        <LinearGradientBrush x:Key="GlassBorder" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#3AFFFFFF" Offset="0.0" />
+            <GradientStop Color="#0DFFFFFF" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="GlassBorderSubtle" Color="#17FFFFFF" />
+
+        <!-- Accent gradients -->
+        <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="{StaticResource ColViolet}" Offset="0.0" />
+            <GradientStop Color="{StaticResource ColCyan}" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="AccentGradientHover" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#DDB65C" Offset="0.0" />
+            <GradientStop Color="#F0DDA0" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="RoseGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="{StaticResource ColPink}" Offset="0.0" />
+            <GradientStop Color="{StaticResource ColRose}" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- ============ SHARED EFFECTS ============ -->
+        <DropShadowEffect x:Key="CardShadow" Color="#000000" Direction="270" ShadowDepth="10" BlurRadius="34" Opacity="0.45" />
+        <DropShadowEffect x:Key="GlowViolet" Color="{StaticResource ColViolet}" Direction="0" ShadowDepth="0" BlurRadius="22" Opacity="0.35" />
+        <DropShadowEffect x:Key="GlowCyan" Color="{StaticResource ColCyan}" Direction="0" ShadowDepth="0" BlurRadius="18" Opacity="0.3" />
+        <DropShadowEffect x:Key="GlowRose" Color="#000000" Direction="270" ShadowDepth="6" BlurRadius="18" Opacity="0.4" />
+
+        <!-- ============ GLASS CARD (Border) STYLE ============ -->
+        <Style x:Key="GlassCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource GlassFill}" />
+            <Setter Property="BorderBrush" Value="{StaticResource GlassBorder}" />
+            <Setter Property="BorderThickness" Value="1.2" />
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Effect" Value="{StaticResource CardShadow}" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+        </Style>
+
+        <!-- Small glass chip/badge -->
+        <Style x:Key="GlassChip" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource GlassFillStrong}" />
+            <Setter Property="BorderBrush" Value="{StaticResource GlassBorderSubtle}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="12,5" />
+        </Style>
+
+        <!-- ============ BUTTONS ============ -->
+        <!-- Ghost / secondary glass button -->
+        <Style x:Key="PresetBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource GlassFill}" />
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}" />
+            <Setter Property="BorderBrush" Value="{StaticResource GlassBorderSubtle}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="16,9" />
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource GlassFillHover}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentCyan}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2AFFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Primary gradient "glow" action button (used for master power) -->
+        <Style x:Key="ActionBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentGradient}" />
+            <Setter Property="Foreground" Value="#15130E" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="16,9" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Effect" Value="{StaticResource GlowViolet}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentGradientHover}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.85" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ============ GLASS SLIDER ============ -->
+        <Style x:Key="GlassSliderThumb" TargetType="Thumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Width="22" Height="22" Fill="#FFFFFF" Stroke="{StaticResource AccentCyan}" StrokeThickness="2" Effect="{StaticResource GlowCyan}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GlassRepeatButtonFilled" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Height="8" CornerRadius="4" Background="{StaticResource AccentGradient}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GlassRepeatButtonEmpty" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Height="8" CornerRadius="4" Background="#18FFFFFF" BorderBrush="{StaticResource GlassBorderSubtle}" BorderThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GlassSlider" TargetType="Slider">
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid VerticalAlignment="Center">
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource GlassRepeatButtonFilled}" Command="Slider.DecreaseLarge" />
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource GlassRepeatButtonEmpty}" Command="Slider.IncreaseLarge" />
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource GlassSliderThumb}" />
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Effect selector button style (pill/tab) -->
+        <Style x:Key="EffectBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource GlassFill}" />
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}" />
+            <Setter Property="BorderBrush" Value="{StaticResource GlassBorderSubtle}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="3,3" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource GlassFillHover}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentCyan}" />
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimary}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Application.Resources>
+</Application>
